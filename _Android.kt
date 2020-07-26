@@ -33,8 +33,10 @@ val Context.accessibilityManager: AccessibilityManager?
         if (!isAccessibilityEnabled) null
         else getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
 
-fun Fragment.getStringArg(name: String): String =
-    arguments?.getString(name) ?: error("No $name found in args")
+fun Fragment.getFragmentStringArg(name: String): String =
+    arguments
+        ?.getString(name)
+        ?: error("No $name found in args")
 
 typealias BuzzPattern = LongArray
 
@@ -127,7 +129,7 @@ class logged<C, T>(
             ?: error("Setter is expected to be set")
 }
 
-class DataConverters {
+class DateConverters {
 
     @TypeConverter
     fun to(d: Date): Long = d.time
