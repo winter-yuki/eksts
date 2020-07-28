@@ -1,5 +1,3 @@
-package com.github.braillesystems.learnbraille.utils
-
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
