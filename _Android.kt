@@ -19,11 +19,6 @@ import timber.log.Timber
 import java.util.*
 import kotlin.reflect.KProperty
 
-/**
- * The file contains suitable extension functions for Android Framework
- * that are not specific for particular project.
- */
-
 val Context.usbManager get() = getSystemService(Context.USB_SERVICE) as UsbManager
 
 val Context.accessibilityManager: AccessibilityManager?
