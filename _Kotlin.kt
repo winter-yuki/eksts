@@ -1,10 +1,5 @@
 import kotlin.reflect.KProperty
 
-/**
- * The file contains suitable extension functions for kotlin
- * that are not specific for particular project.
- */
-
 inline fun <T, R> T?.side(block: (T) -> R) {
     if (this != null) block(this)
 }
@@ -94,4 +89,26 @@ class lazyWithContext<C, R>(private val getter: C.(KProperty<*>) -> R) {
         value ?: thisRef
             .getter(property)
             .also { value = it }
+}
+
+class Days(val v: Int) {
+    operator fun unaryMinus(): Days = Days(-v)
+}
+
+operator fun Date.plus(days: Days): Date =
+    GregorianCalendar()
+        .apply {
+            time = this@plus
+            add(Calendar.DATE, days.v)
+        }
+        .time
+
+operator fun Date.minus(days: Days): Date = plus(-days)
+
+inline fun <T> tryN(n: Int, stop: (T) -> Boolean, get: () -> T): T? {
+    repeat(n) {
+        val v = get()
+        if (stop(v)) return v
+    }
+    return null
 }
