@@ -41,7 +41,7 @@ fun <T, R> Rules<T, R>.match(key: T): R? = matchF(key)?.invoke(key)
 operator fun <T, R> Rules<T, R>.get(x: T): R? = match(x)
 
 /**
- * It is very useful to choose android text resource depending on some condition.
+ * It is useful to choose android text resource depending on some condition.
  * (In that case prevent lambda of capturing context that will be invalid next time fragment entered,
  * so use `Fragment.getString` outside of (...) -> String lambdas.)
  * ```
@@ -50,27 +50,9 @@ operator fun <T, R> Rules<T, R>.get(x: T): R? = match(x)
  *         val t = getString(R.string.input_letter_intro_template)
  *         ruSymbols.map::containsKey to { c: Char -> t.format(c) }
  *     },
- *
  *     {
  *         val t = getString(R.string.input_digit_intro_template)
  *         uebDigits.map::containsKey to { c: Char -> t.format(c) }
- *     },
- *
- *     {
- *         val other = getString(R.string.input_special_intro_template)
- *         val numSign = getString(R.string.input_special_intro_num_sign)
- *         val dotIntro = getString(R.string.input_special_intro_dot)
- *         val commaIntro = getString(R.string.input_special_intro_comma)
- *         val hyphenIntro = getString(R.string.input_special_intro_hyphen)
- *         specialSymbols.map::containsKey to { c: Char ->
- *             when (c) {
- *                 ']' -> numSign
- *                 '.' -> dotIntro
- *                 ',' -> commaIntro
- *                 '-' -> hyphenIntro
- *                 else -> other.format(c)
- *             }
- *         }
  *     }
  * )
  * ```
