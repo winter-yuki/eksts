@@ -19,6 +19,9 @@ import timber.log.Timber
 import java.util.*
 import kotlin.reflect.KProperty
 
+val Fragment.contextNotNull: Context
+    get() = requireNotNull(context)
+
 val Context.usbManager get() = getSystemService(Context.USB_SERVICE) as UsbManager
 
 val Context.accessibilityManager: AccessibilityManager?
@@ -29,7 +32,7 @@ val Context.accessibilityManager: AccessibilityManager?
 fun Fragment.getFragmentStringArg(name: String): String =
     arguments
         ?.getString(name)
-        ?: error("No $name found in args")
+        ?: error("No $name found in fragment args")
 
 typealias BuzzPattern = LongArray
 
@@ -91,8 +94,7 @@ fun Fragment.navigate(action: NavDirections) = try {
 }
 
 val Context.appName: String get() = getString(R.string.app_name)
-val Fragment.appName: String
-    get() = context?.appName ?: error("Fragment is expected to have a context")
+val Fragment.appName: String get() = contextNotNull.appName
 
 val Context.preferences: SharedPreferences
     get() = PreferenceManager.getDefaultSharedPreferences(this)
