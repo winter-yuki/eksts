@@ -60,17 +60,19 @@ operator fun <T, R> Rules<T, R>.get(x: T): R? = match(x)
 class rules<C, T, R>(private vararg val ruleProviders: C.() -> Rule<T, R>) {
     private var value: Rules<T, R>? = null
     operator fun getValue(thisRef: C, property: KProperty<*>): Rules<T, R> =
-        value ?: ruleProviders
-            .map { thisRef.it() }
-            .also { value = it }
+        value
+            ?: ruleProviders
+                .map { thisRef.it() }
+                .also { value = it }
 }
 
 class lazyWithContext<C, R>(private val getter: C.(KProperty<*>) -> R) {
     private var value: R? = null
     operator fun getValue(thisRef: C, property: KProperty<*>): R =
-        value ?: thisRef
-            .getter(property)
-            .also { value = it }
+        value
+            ?: thisRef
+                .getter(property)
+                .also { value = it }
 }
 
 class Days(val v: Int) {
@@ -87,7 +89,7 @@ operator fun Date.plus(days: Days): Date =
 
 operator fun Date.minus(days: Days): Date = plus(-days)
 
-inline fun <T> tryN(n: Int, stop: (T) -> Boolean, get: () -> T): T? {
+inline fun <T> retryN(n: Int, stop: (T) -> Boolean, get: () -> T): T? {
     repeat(n) {
         val v = get()
         if (stop(v)) return v
