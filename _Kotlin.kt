@@ -4,6 +4,9 @@ inline fun <T, R> T?.side(block: (T) -> R) {
     if (this != null) block(this)
 }
 
+inline fun <T> forEach(vararg xs: T, block: (T) -> Unit) = xs.forEach(block)
+inline fun <T> applyForEach(vararg xs: T, block: T.() -> Unit) = xs.forEach { it.block() }
+
 /**
  * Try to use sealed classes to avoid using `unreachable`.
  */
