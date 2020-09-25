@@ -1,3 +1,3 @@
 # sweet-kt-ext
 
-Sweet Kotlin extensions for android and life 
+Sweet Kotlin extension functions for android and life
