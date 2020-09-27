@@ -7,11 +7,19 @@ inline fun <T, R> T?.side(block: (T) -> R) {
 inline fun <T> forEach(vararg xs: T, block: (T) -> Unit) = xs.forEach(block)
 inline fun <T> applyForEach(vararg xs: T, block: T.() -> Unit) = xs.forEach { it.block() }
 
+inline fun <T> chainify(vararg xs: T, block: (T, T) -> Unit) =
+    xs
+        .toList()
+        .windowed(size = 2) { it.first() to it.last() }
+        .forEach { (a, b) -> block(a, b) }
+
 /**
  * Try to use sealed classes to avoid using `unreachable`.
  */
 val unreachable: Nothing
     get() = error("Unreachable code executed")
+
+val Any?.devnull: Unit get() {}
 
 operator fun MatchGroupCollection.component1() = get(0)
 operator fun MatchGroupCollection.component2() = get(1)
@@ -27,8 +35,6 @@ operator fun <A, B> Pair<A, B>.compareTo(other: Pair<A, B>): Int
         equals(other) -> 0
         else -> 1
     }
-
-val Any?.devnull: Unit get() {}
 
 fun String.removeHtmlMarkup() = Regex("""<[^>]*>|&""").replace(this, "")
 
